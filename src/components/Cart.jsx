@@ -1,6 +1,14 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 export default function Cart() {
+  const cartData = useSelector((state) => state.cartSlice.cartData);
+
+  const mainPrice = cartData?.attributes?.price;
+  const discount = cartData?.attributes?.offer / 100;
+  const discountedPrice = mainPrice * discount;
+  const finalPrice = (mainPrice - discountedPrice).toFixed(0);
+  console.log(cartData);
   return (
     <>
       <div className="gi-side-cart-overlay w-full h-screen fixed top-[0] left-[0] bg-[#000000cc] z-[17] hidden" />
@@ -22,126 +30,50 @@ export default function Cart() {
               </a>
             </div>
             <ul className="gi-cart-pro-items">
-              <li className="mb-[15px] p-[15px] flex overflow-hidden border-[1px] border-solid border-[#eee] rounded-[5px]">
-                <a
-                  href="product-left-sidebar.html"
-                  className="gi-pro-img flex grow-[1] basis-[20%] items-center"
-                >
-                  <img
-                    src="img/product-images/25_1.jpg"
-                    className="w-full"
-                    alt="product"
-                  />
-                </a>
-                <div className="gi-pro-content relative grow-[1] basis-[70%] pl-[15px] overflow-hidden">
-                  <a
-                    href="product-left-sidebar.html"
-                    className="cart-pro-title w-full pr-[30px] text-[#777] whitespace-normal overflow-hidden text-ellipsis block text-[15px] leading-[18px] font-normal"
-                  >
-                    Fresh Lichi
-                  </a>
-                  <span className="cart-price text-[14px] block mt-[5px]">
-                    <span className="text-[#777] font-semibold text-[16px]">
-                      $25.00
-                    </span>{" "}
-                    x 1 kg
-                  </span>
-                  <div className="qty-plus-minus border-[1px] border-solid border-[#eee] h-[35px] overflow-hidden relative w-[85px] flex items-center justify-between py-[7px] mt-[7px]">
-                    <input
-                      className="qty-input"
-                      type="text"
-                      name="gi-qtybtn"
-                      defaultValue={1}
-                    />
-                  </div>
-                  <a
-                    href="javascript:void(0)"
-                    className="remove leading-[15px] absolute top-[0] right-[0] pl-[10px] text-[#ff0000] text-[22px]"
-                  >
-                    ×
-                  </a>
-                </div>
-              </li>
-              <li className="mb-[15px] p-[15px] flex overflow-hidden border-[1px] border-solid border-[#eee] rounded-[5px]">
-                <a
-                  href="product-left-sidebar.html"
-                  className="gi-pro-img flex grow-[1] basis-[20%] items-center"
-                >
-                  <img
-                    src="img/product-images/17_1.jpg"
-                    className="w-full"
-                    alt="product"
-                  />
-                </a>
-                <div className="gi-pro-content relative grow-[1] basis-[70%] pl-[15px] overflow-hidden">
-                  <a
-                    href="product-left-sidebar.html"
-                    className="cart-pro-title w-full pr-[30px] text-[#777] whitespace-normal overflow-hidden text-ellipsis block text-[15px] leading-[18px] font-normal"
-                  >
-                    Ginger - Organic
-                  </a>
-                  <span className="cart-price text-[14px] block mt-[5px]">
-                    <span className="text-[#777] font-semibold text-[16px]">
-                      $5.00
-                    </span>{" "}
-                    x 1 250g
-                  </span>
-                  <div className="qty-plus-minus border-[1px] border-solid border-[#eee] h-[35px] overflow-hidden relative w-[85px] flex items-center justify-between py-[7px] mt-[7px]">
-                    <input
-                      className="qty-input"
-                      type="text"
-                      name="gi-qtybtn"
-                      defaultValue={1}
-                    />
-                  </div>
-                  <a
-                    href="javascript:void(0)"
-                    className="remove leading-[15px] absolute top-[0] right-[0] pl-[10px] text-[#ff0000] text-[22px]"
-                  >
-                    ×
-                  </a>
-                </div>
-              </li>
-              <li className="mb-[15px] p-[15px] flex overflow-hidden border-[1px] border-solid border-[#eee] rounded-[5px]">
-                <a
-                  href="product-left-sidebar.html"
-                  className="gi-pro-img flex grow-[1] basis-[20%] items-center"
-                >
-                  <img
-                    src="img/product-images/2_1.jpg"
-                    className="w-full"
-                    alt="product"
-                  />
-                </a>
-                <div className="gi-pro-content relative grow-[1] basis-[70%] pl-[15px] overflow-hidden">
-                  <a
-                    href="product-left-sidebar.html"
-                    className="cart-pro-title w-full pr-[30px] text-[#777] whitespace-normal overflow-hidden text-ellipsis block text-[15px] leading-[18px] font-normal"
-                  >
-                    Dates Value Pack Pouch
-                  </a>
-                  <span className="cart-price text-[14px] block mt-[5px]">
-                    <span className="text-[#777] font-semibold text-[16px]">
-                      $59.00
-                    </span>{" "}
-                    x 1 pack
-                  </span>
-                  <div className="qty-plus-minus border-[1px] border-solid border-[#eee] h-[35px] overflow-hidden relative w-[85px] flex items-center justify-between py-[7px] mt-[7px]">
-                    <input
-                      className="qty-input"
-                      type="text"
-                      name="gi-qtybtn"
-                      defaultValue={1}
-                    />
-                  </div>
-                  <a
-                    href="javascript:void(0)"
-                    className="remove leading-[15px] absolute top-[0] right-[0] pl-[10px] text-[#ff0000] text-[22px]"
-                  >
-                    ×
-                  </a>
-                </div>
-              </li>
+              {cartData?.map((item) => {
+                return (
+                  <li className="mb-[15px] p-[15px] flex overflow-hidden border-[1px] border-solid border-[#eee] rounded-[5px]" key={item?.id}>
+                    <a
+                      href="product-left-sidebar.html"
+                      className="gi-pro-img flex grow-[1] basis-[20%] items-center"
+                    >
+                      <img
+                        src={baseUrl+item?.attributes?.thumbnail.data.attributes.url}
+                        className="w-full"
+                        alt="product"
+                      />
+                    </a>
+                    <div className="gi-pro-content relative grow-[1] basis-[70%] pl-[15px] overflow-hidden">
+                      <a
+                        href="product-left-sidebar.html"
+                        className="clamped_1 cart-pro-title w-full pr-[30px] text-[#777] whitespace-normal overflow-hidden text-ellipsis block text-[15px] leading-[18px] font-normal"
+                      >
+                        {item?.attributes?.title}
+                      </a>
+                      <span className="cart-price text-[14px] block mt-[5px]">
+                        <span className="text-[#777] font-semibold text-[16px]">
+                          {finalPrice}
+                        </span>{" "}
+                        x 1 kg
+                      </span>
+                      <div className="qty-plus-minus border-[1px] border-solid border-[#eee] h-[35px] overflow-hidden relative w-[85px] flex items-center justify-between py-[7px] mt-[7px]">
+                        <input
+                          className="qty-input"
+                          type="text"
+                          name="gi-qtybtn"
+                          defaultValue={1}
+                        />
+                      </div>
+                      <a
+                        href="javascript:void(0)"
+                        className="remove leading-[15px] absolute top-[0] right-[0] pl-[10px] text-[#ff0000] text-[22px]"
+                      >
+                        ×
+                      </a>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <div className="gi-cart-bottom">

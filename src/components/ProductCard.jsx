@@ -33,9 +33,9 @@ export default function ProductCard(props) {
   // add to cart
 
   const getCartData = useSelector((state) => state.cardData);
-
+  const cartProduct = props.product;
   const handleCart = () => {
-    dispatch(addToCart(productData));
+    dispatch(addToCart(cartProduct));
   };
 
   // console.log("getCartData", productData);

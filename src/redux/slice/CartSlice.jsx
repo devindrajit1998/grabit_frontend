@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react";
 
 const initialState = {
   cartData: [],
@@ -14,13 +13,17 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-        const updateCart = {...action.payload, quantity:1};
-        const Quantity = updateCart.quantity;
-       
-        console.log("updateCart", Quantity);
-        console.log("updateCart", updateCart);
-      state.cartData.push(action.payload);
+      const updateCart = { ...action.payload.attributes, inCart: 1 };
+      const getData = action.payload;
+      const currentID = getData?.id;
+      const currentCart = state.cartData;
+      const exsistingCart = currentCart.find((item) => item.id === currentID);
+    
+      state.cartData.push(getData);
+
+      console.log("exsistingCart", exsistingCart);
     },
+    
   },
 });
 
