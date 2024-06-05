@@ -1,0 +1,28 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
+
+const initialState = {
+  cartData: [],
+  cartQuantity: 0,
+  cartTotalPrice: 0,
+  status: "idle",
+  error: null,
+};
+
+export const cartSlice = createSlice({
+  name: "cartSlice",
+  initialState,
+  reducers: {
+    addToCart: (state, action) => {
+        const updateCart = {...action.payload, quantity:1};
+        const Quantity = updateCart.quantity;
+       
+        console.log("updateCart", Quantity);
+        console.log("updateCart", updateCart);
+      state.cartData.push(action.payload);
+    },
+  },
+});
+
+export const { addToCart } = cartSlice.actions;
+export default cartSlice.reducer;
